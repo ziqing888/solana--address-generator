@@ -1,6 +1,6 @@
 from datetime import datetime
 
-def log_progress(process_id, attempts):
+def log_progress(process_id, attempts, config):
     """记录进度日志，每隔指定次数输出一次。"""
     if config["show_log"] and attempts % config["log_count"] == 0:
         print(f"进程 {process_id}: 尝试生成 {attempts} 次")
