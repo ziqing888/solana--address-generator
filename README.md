@@ -46,7 +46,7 @@ show_log：是否显示生成进度的日志。
 log_count：每隔 log_count 次生成显示一次进度。
 ### 执行以下命令启动地址生成器：
 ```bash
-python main.py
+python3 main.py
  ```
 ### 查看生成文件
 
