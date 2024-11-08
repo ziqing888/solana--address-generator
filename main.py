@@ -17,19 +17,19 @@ def display_header():
     
     # 打印带边框的 Logo 信息
     print(f"{YELLOW}╔════════════════════════════════════════╗")
-    print(f"{YELLOW}║      🚀  sol地址生成器 🚀             ║")
+    print(f"{YELLOW}║      🚀  SOL地址生成器 🚀             ║")
     print(f"{YELLOW}║  👤    脚本编写：@qklxsqf              ║")
     print(f"{YELLOW}║  📢  电报频道：https://t.me/ksqxszq    ║")
     print(f"{YELLOW}╚════════════════════════════════════════╝{RESET}")
     print()  # 空行
 
-def wallet_search(process_id, stop_event):
+def wallet_search(process_id, stop_event, config):
     """并行搜索符合条件的钱包地址。"""
     attempts = 0
     while not stop_event.is_set():
         wallet = generate_wallet()
         attempts += 1
-        log_progress(process_id, attempts)
+        log_progress(process_id, attempts, config)  # 传递 config 参数
         if matches_address(wallet["public_key"], config["address_start"], config["address_end"]):
             stop_event.set()
             save_wallet_to_file(wallet, config["address_start"])
@@ -43,7 +43,7 @@ def main():
     with multiprocessing.Manager() as manager:
         stop_event = manager.Event()
         with concurrent.futures.ProcessPoolExecutor(max_workers=config["num_processes"]) as executor:
-            futures = [executor.submit(wallet_search, i + 1, stop_event) for i in range(config["num_processes"])]
+            futures = [executor.submit(wallet_search, i + 1, stop_event, config) for i in range(config["num_processes"])]
             for future in concurrent.futures.as_completed(futures):
                 wallet = future.result()
                 if wallet:
