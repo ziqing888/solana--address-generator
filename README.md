@@ -7,7 +7,7 @@
 
 ：下载或克隆此项目代码
 ```bash
-git clone <项目的GitHub链接>
+git clone https://github.com/ziqing888/solana--address-generator
 
 ```
 
